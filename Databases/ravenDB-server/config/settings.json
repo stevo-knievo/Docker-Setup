@@ -1,0 +1,7 @@
+﻿{
+    "Security.UnsecuredAccessAllowed": "PrivateNetwork",
+    "License.Eula.Accepted": true,
+    "Setup.Mode": "None",
+    "ServerUrl": "http://127.0.0.1:0",
+    "DataDir": "RavenData"
+}

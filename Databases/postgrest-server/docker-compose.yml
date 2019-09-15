@@ -1,0 +1,16 @@
+# Use postgres/example user/password credentials
+version: "3"
+
+services:
+
+  db:
+    container_name: postgres-db-server
+    image: postgres:10-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: spokesman_prod
+      POSTGRES_USER: spmroot
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - /Users/stefan/Desktop:/mydata/

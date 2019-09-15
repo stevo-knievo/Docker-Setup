@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+
+  db:
+    container_name: mongo-db-server
+    image: "mongo:4.1-xenial"
+    restart: always
+    ports:
+      - "27018:27018"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    # VBoxHeadl TCP *:27017 (LISTEN)
+    command: mongod --port 27018
+
+  mongo-express:
+    image: "mongo-express:latest"
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_PORT: 27018

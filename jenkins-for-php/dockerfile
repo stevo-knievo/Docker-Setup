@@ -1,0 +1,22 @@
+# https://hub.docker.com/r/jenkins/jenkins/
+
+FROM jenkins/jenkins:lts
+
+USER root
+
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt update \
+    && apt install -y rsync crudini curl wget gnupg2 ca-certificates lsb-release apt-transport-https \
+    && wget https://packages.sury.org/php/apt.gpg \
+    && apt-key add apt.gpg \
+    && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.list \
+    && apt update \
+    && apt install -y php7.2 php7.2-cli php7.2-common php7.2-curl php7.2-xml php7.2-mbstring php7.2-ssh2 php7.2-sqlite3 \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt update \ 
+    && apt install -y rubygems ruby-dev ruby-compass \
+    && gem install sass -v 3.4.23
+
+USER jenkins

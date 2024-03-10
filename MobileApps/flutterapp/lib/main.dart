@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/constants.dart';
 import 'package:flutterapp/weather_forecast.dart';
@@ -10,7 +9,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -18,7 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -26,7 +26,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
+
   final String title;
 
   @override
@@ -68,31 +69,41 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     return Scaffold(
-          appBar: AppBar(
-            title: Text(widget.title),
+      appBar: AppBar(
+        // TRY THIS: Try changing the color here to a specific color (to
+        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+        // change color while the other colors stay the same.
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text(widget.title),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Environment Variables', style: TextStyle(fontSize: 20)),
+          const Divider(
+            height: 20.0,
           ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start, 
-            children: [
-              const Text('Environment Variables', style: TextStyle(fontSize: 20)),
-              const Divider(height: 20.0,),
-              const Text('API_KEY: ${Constants.apiKey}'),
-              const Text('PASSWORD: ${Constants.password}'),
-              const Text('dart.vm.product: ${Constants.isProduction}'),
-              Text('BASE_ADDRESS: ${Constants.baseAddress}'),
-              const Divider(height: 20.0,),
-              const Text('Weather Forecast', style: TextStyle(fontSize: 20)),
-              Expanded(child: futureBuilder)
-            ],
+          const Text('API_KEY: ${Constants.apiKey}'),
+          const Text('PASSWORD: ${Constants.password}'),
+          const Text('dart.vm.product: ${Constants.isProduction}'),
+          Text('BASE_ADDRESS: ${Constants.baseAddress}'),
+          const Divider(
+            height: 20.0,
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: _reloadData,
-            tooltip: 'Refresh',
-            child: const Icon(Icons.refresh),
-          ),
-        );
-    }
+          const Text('Weather Forecast', style: TextStyle(fontSize: 20)),
+          Expanded(child: futureBuilder)
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _reloadData,
+        tooltip: 'Refresh',
+        child: const Icon(Icons.refresh),
+      ),
+    );
+  }
 
   // https://www.youtube.com/watch?v=Pp3zoNDGZUI
   void _reloadData() {
@@ -119,9 +130,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<List<WeatherForecast>> _fetchWeatherForecast() async {
     print('call api WeatherForecast');
-    List<WeatherForecast> result = [];  
+    List<WeatherForecast> result = [];
     final response = await http.get(Uri.parse('${Constants.baseAddress}/weatherforecast'));
-    
+
     // print('Future.delayed..');
     // await Future.delayed(const Duration(milliseconds: 300));
     // await Future.delayed(const Duration(seconds: 3));
@@ -130,9 +141,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     print('called api WeatherForecast response.statusCode: ${response.statusCode}');
     if (response.statusCode == 200) {
-      jsonDecode(response.body).forEach((element) {
-          result.add(WeatherForecast.fromJson(element));
-        });
+      convert.jsonDecode(response.body).forEach((element) {
+        result.add(WeatherForecast.fromJson(element));
+      });
       return result;
     } else {
       // If the server did not return a 200 OK response,
@@ -144,17 +155,19 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<WeatherForecast> values = snapshot.data;
     return ListView.builder(
-        itemCount: values.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Column(
-            children: <Widget>[
-              ListTile(
-                title: Text(values[index].summary ?? 'No summary'),
-              ),
-              const Divider(height: 2.0,),
-            ],
-          );
-        },
+      itemCount: values.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Column(
+          children: <Widget>[
+            ListTile(
+              title: Text(values[index].summary ?? 'No summary'),
+            ),
+            const Divider(
+              height: 2.0,
+            ),
+          ],
+        );
+      },
     );
   }
 }

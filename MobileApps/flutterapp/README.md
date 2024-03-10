@@ -8,22 +8,22 @@ The Android emulator and iOS simulator both provide access to web services runni
 - iOS: http://localhost:<port>/api/todoitems/ or https:/localhost:<port>/api/todoitems/
 
 ## Flutter environment variables
-**Since this flutter project is prior Flutter 3.13 there is no native support for .env files yet!!.**
+From flutter 3.13, there is native support for .env files. This repo has been edited to reflect the changes.
 
 ### Define variables
 ```shell
-flutter run --dart-define=SOME_VAR=SOME_VALUE --dart-define=OTHER_VAR=OTHER_VALUE
+flutter run --dart-define-from-file=.env
 ```
 
 ## Dev dependencies
-- Flutter SDK 3.0.0 with Dart 2.17.0 from 2022-11-05
-- gradle 7.1.2 (<= Java 16, more infos [here](https://docs.gradle.org/current/userguide/compatibility.html#java))
-- Java 11 LTS
+- Flutter SDK 3.19.3 with Dart 3.3.1 from 2024-03-07
+- gradle 7.6.3 (<= Java 19, more infos [here](https://docs.gradle.org/current/userguide/compatibility.html#java))
+- Java 11 LTS >=< Java 19
 
 ### Flutter / Dart
-Use the Flutter SDK 3.0.0 with Dart 2.17.0 from 2022-11-05.
-- [macos - arm64](https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.0.0-stable.zip)
-- [macos - x64](https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.0.0-stable.zip)
+Use the Flutter SDK 3.19.3, Dart 3.3.1, DevTools 2.31.1 from 2024-03-07
+- [macos - arm64](https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.19.3-stable.zip)
+- [macos - x64](https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.19.3-stable.zip)
 
 
 # More infos
